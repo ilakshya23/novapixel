@@ -28,10 +28,11 @@ function AdSlot({ tall = false }: { tall?: boolean }) {
   );
 }
 
-// Desktop sticky sidebar — used to fill a ~30% width column
+// Desktop sticky sidebar — used to fill a ~40% width column
 export function AdSidebar() {
   return (
     <div className="space-y-6">
+      <AdSlot tall />
       <AdSlot tall />
       <AdSlot />
     </div>

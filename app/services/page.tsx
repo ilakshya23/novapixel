@@ -31,7 +31,7 @@ export default function ServicesPage() {
       {/* Services Grid */}
       <section className="py-12 pb-28 px-6">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-10 gap-8">
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-6">
             <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6" staggerDelay={0.08}>
               {services.map((service, i) => (
                 <StaggerItem key={service.slug}>
@@ -66,7 +66,7 @@ export default function ServicesPage() {
           </div>
 
           {/* Ad Sidebar — ~30% width */}
-          <div className="lg:col-span-3 hidden lg:block">
+          <div className="lg:col-span-4 hidden lg:block">
             <div className="lg:sticky lg:top-24">
               <AdSidebar />
             </div>
