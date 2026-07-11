@@ -91,8 +91,13 @@ function getAdjacentServices(slug: string) {
   return [prev, next].filter((s) => s.slug !== slug).slice(0, 3);
 }
 
-export default function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params);
+function isPromise<T>(value: unknown): value is Promise<T> {
+  return !!value && typeof (value as { then?: unknown }).then === "function";
+}
+
+export default function ServicePage({ params }: { params: { slug: string } | Promise<{ slug: string }> }) {
+  const resolvedParams = isPromise<{ slug: string }>(params) ? use(params) : params;
+  const { slug } = resolvedParams;
   const service = services.find((s) => s.slug === slug);
   if (!service) notFound();
 
