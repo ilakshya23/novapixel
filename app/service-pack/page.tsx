@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FadeUp, StaggerChildren, StaggerItem, ScaleIn } from "@/components/AnimationComponents";
+import { AdSidebar, AdBanner } from "@/components/AdBlock";
 
 const packs = [
   {
@@ -64,54 +65,68 @@ export default function ServicePackPage() {
         </FadeUp>
       </section>
 
+      {/* Mobile ad banner */}
+      <div className="lg:hidden pt-4">
+        <AdBanner />
+      </div>
+
       {/* Packs Grid */}
       <section className="py-12 px-6 pb-24">
-        <div className="max-w-7xl mx-auto">
-          <StaggerChildren className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" staggerDelay={0.1}>
-            {packs.map((pack) => (
-              <StaggerItem key={pack.name}>
-                <motion.div
-                  whileHover={{ y: -8, scale: 1.02 }}
-                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                  className={`relative bg-navy-light border ${pack.color} rounded-2xl p-6 flex flex-col h-full ${pack.highlight ? "glow-cyan" : ""}`}
-                >
-                  {pack.badge && (
-                    <span className={`absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-sora font-semibold whitespace-nowrap ${pack.highlight ? "bg-cyan text-navy" : "bg-violet text-white"}`}>
-                      {pack.badge}
-                    </span>
-                  )}
-                  <div className="mb-6 pt-2">
-                    <h2 className="font-sora font-extrabold text-2xl text-off-white mb-1">{pack.name}</h2>
-                    <p className="text-muted text-sm mb-4">{pack.tagline}</p>
-                    <div className="flex items-end gap-2">
-                      <span className="font-sora font-extrabold text-3xl text-off-white">${pack.price}</span>
-                      <span className="text-muted text-sm line-through mb-1">${pack.originalPrice}</span>
-                    </div>
-                    <span className={`inline-block mt-2 text-[10px] font-sora font-bold uppercase tracking-wide px-2.5 py-1 rounded-full ${pack.highlight ? "bg-cyan/15 text-cyan" : "bg-violet/15 text-violet-bright"}`}>
-                      {pack.discount}
-                    </span>
-                  </div>
-                  <ul className="space-y-3 flex-1 mb-8">
-                    {pack.services.map((s) => (
-                      <li key={s} className="flex items-start gap-2.5">
-                        <span className={`w-4 h-4 rounded flex items-center justify-center flex-shrink-0 mt-0.5 text-xs ${pack.highlight ? "bg-cyan/20 text-cyan" : "bg-violet/20 text-violet-bright"}`}>✓</span>
-                        <span className="text-off-white text-sm">{s}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Link
-                    href="/contact"
-                    className={`block text-center py-3 px-6 rounded-xl font-sora font-semibold text-sm transition-all duration-300 ${pack.highlight ? "btn-primary text-white" : "btn-outline"}`}
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-10 gap-8">
+          <div className="lg:col-span-7">
+            <StaggerChildren className="grid grid-cols-1 md:grid-cols-2 gap-6" staggerDelay={0.1}>
+              {packs.map((pack) => (
+                <StaggerItem key={pack.name}>
+                  <motion.div
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    className={`relative bg-navy-light border ${pack.color} rounded-2xl p-6 flex flex-col h-full ${pack.highlight ? "glow-cyan" : ""}`}
                   >
-                    {pack.cta}
-                  </Link>
-                </motion.div>
-              </StaggerItem>
-            ))}
-          </StaggerChildren>
-          <FadeUp delay={0.3} className="text-center mt-8">
-            <p className="text-muted text-sm">Prices shown reflect our current limited-time discount. Need something different? We also build fully custom bundles — reach out for a free consultation.</p>
-          </FadeUp>
+                    {pack.badge && (
+                      <span className={`absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-sora font-semibold whitespace-nowrap ${pack.highlight ? "bg-cyan text-navy" : "bg-violet text-white"}`}>
+                        {pack.badge}
+                      </span>
+                    )}
+                    <div className="mb-6 pt-2">
+                      <h2 className="font-sora font-extrabold text-2xl text-off-white mb-1">{pack.name}</h2>
+                      <p className="text-muted text-sm mb-4">{pack.tagline}</p>
+                      <div className="flex items-end gap-2">
+                        <span className="font-sora font-extrabold text-3xl text-off-white">${pack.price}</span>
+                        <span className="text-muted text-sm line-through mb-1">${pack.originalPrice}</span>
+                      </div>
+                      <span className={`inline-block mt-2 text-[10px] font-sora font-bold uppercase tracking-wide px-2.5 py-1 rounded-full ${pack.highlight ? "bg-cyan/15 text-cyan" : "bg-violet/15 text-violet-bright"}`}>
+                        {pack.discount}
+                      </span>
+                    </div>
+                    <ul className="space-y-3 flex-1 mb-8">
+                      {pack.services.map((s) => (
+                        <li key={s} className="flex items-start gap-2.5">
+                          <span className={`w-4 h-4 rounded flex items-center justify-center flex-shrink-0 mt-0.5 text-xs ${pack.highlight ? "bg-cyan/20 text-cyan" : "bg-violet/20 text-violet-bright"}`}>✓</span>
+                          <span className="text-off-white text-sm">{s}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <Link
+                      href="/contact"
+                      className={`block text-center py-3 px-6 rounded-xl font-sora font-semibold text-sm transition-all duration-300 ${pack.highlight ? "btn-primary text-white" : "btn-outline"}`}
+                    >
+                      {pack.cta}
+                    </Link>
+                  </motion.div>
+                </StaggerItem>
+              ))}
+            </StaggerChildren>
+            <FadeUp delay={0.3} className="text-center mt-8">
+              <p className="text-muted text-sm">Prices shown reflect our current limited-time discount. Need something different? We also build fully custom bundles — reach out for a free consultation.</p>
+            </FadeUp>
+          </div>
+
+          {/* Ad Sidebar — ~30% width */}
+          <div className="lg:col-span-3 hidden lg:block">
+            <div className="lg:sticky lg:top-24">
+              <AdSidebar />
+            </div>
+          </div>
         </div>
       </section>
 

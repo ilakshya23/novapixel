@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { services } from "@/lib/services-data";
 import { FadeUp, StaggerContainer, StaggerItem, TiltCard } from "@/components/AnimationComponents";
+import { AdSidebar, AdBanner } from "@/components/AdBlock";
 
 export default function ServicesPage() {
   return (
@@ -22,40 +23,54 @@ export default function ServicesPage() {
         </FadeUp>
       </section>
 
+      {/* Mobile ad banner */}
+      <div className="lg:hidden pt-8">
+        <AdBanner />
+      </div>
+
       {/* Services Grid */}
       <section className="py-12 pb-28 px-6">
-        <div className="max-w-7xl mx-auto">
-          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.08}>
-            {services.map((service, i) => (
-              <StaggerItem key={service.slug}>
-                <Link href={`/services/${service.slug}`} className="block h-full">
-                  <TiltCard className={`service-card bg-gradient-to-br ${service.color} bg-navy-light border ${service.accent === "cyan" ? "border-cyan/20" : "border-violet/20"} rounded-2xl p-7 h-full flex flex-col group`}>
-                    {/* Number + Icon */}
-                    <div className="flex items-start justify-between mb-5">
-                      <span className="text-4xl">{service.icon}</span>
-                      <span className="text-slate/40 font-sora font-extrabold text-3xl">{String(i + 1).padStart(2, "0")}</span>
-                    </div>
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-10 gap-8">
+          <div className="lg:col-span-7">
+            <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6" staggerDelay={0.08}>
+              {services.map((service, i) => (
+                <StaggerItem key={service.slug}>
+                  <Link href={`/services/${service.slug}`} className="block h-full">
+                    <TiltCard className={`service-card bg-gradient-to-br ${service.color} bg-navy-light border ${service.accent === "cyan" ? "border-cyan/20" : "border-violet/20"} rounded-2xl p-7 h-full flex flex-col group`}>
+                      {/* Number + Icon */}
+                      <div className="flex items-start justify-between mb-5">
+                        <span className="text-4xl">{service.icon}</span>
+                        <span className="text-slate/40 font-sora font-extrabold text-3xl">{String(i + 1).padStart(2, "0")}</span>
+                      </div>
 
-                    <h2 className="font-sora font-bold text-xl text-off-white mb-3 group-hover:gradient-text transition-all">{service.title}</h2>
-                    <p className="text-muted text-sm leading-relaxed flex-1">{service.desc}</p>
+                      <h2 className="font-sora font-bold text-xl text-off-white mb-3 group-hover:gradient-text transition-all">{service.title}</h2>
+                      <p className="text-muted text-sm leading-relaxed flex-1">{service.desc}</p>
 
-                    {/* Feature pills */}
-                    <div className="flex flex-wrap gap-2 mt-5 mb-5">
-                      {service.features.slice(0, 3).map((f) => (
-                        <span key={f} className="text-xs bg-navy/60 border border-slate/30 text-muted px-2.5 py-1 rounded-full">{f}</span>
-                      ))}
-                    </div>
+                      {/* Feature pills */}
+                      <div className="flex flex-wrap gap-2 mt-5 mb-5">
+                        {service.features.slice(0, 3).map((f) => (
+                          <span key={f} className="text-xs bg-navy/60 border border-slate/30 text-muted px-2.5 py-1 rounded-full">{f}</span>
+                        ))}
+                      </div>
 
-                    {/* CTA */}
-                    <div className={`flex items-center gap-2 text-sm font-sora font-semibold ${service.accent === "cyan" ? "text-cyan" : "text-violet-bright"} group-hover:gap-3 transition-all`}>
-                      View Service
-                      <motion.span animate={{}} className="inline-block">→</motion.span>
-                    </div>
-                  </TiltCard>
-                </Link>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
+                      {/* CTA */}
+                      <div className={`flex items-center gap-2 text-sm font-sora font-semibold ${service.accent === "cyan" ? "text-cyan" : "text-violet-bright"} group-hover:gap-3 transition-all`}>
+                        View Service
+                        <motion.span animate={{}} className="inline-block">→</motion.span>
+                      </div>
+                    </TiltCard>
+                  </Link>
+                </StaggerItem>
+              ))}
+            </StaggerContainer>
+          </div>
+
+          {/* Ad Sidebar — ~30% width */}
+          <div className="lg:col-span-3 hidden lg:block">
+            <div className="lg:sticky lg:top-24">
+              <AdSidebar />
+            </div>
+          </div>
         </div>
       </section>
 

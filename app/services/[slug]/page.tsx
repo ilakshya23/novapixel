@@ -14,6 +14,7 @@ import {
   SlideInRight,
   ScaleIn,
 } from "@/components/AnimationComponents";
+import { AdSidebar, AdBanner } from "@/components/AdBlock";
 
 // ─── Testimonials per service ──────────────────────────────────────────────────
 const testimonials: Record<string, { name: string; handle: string; avatar: string; text: string; stars: number }[]> = {
@@ -335,6 +336,11 @@ export default function ServicePage({ params }: { params: { slug: string } | Pro
         </div>
       </section>
 
+      {/* Mobile ad banner */}
+      <div className="lg:hidden pt-4">
+        <AdBanner />
+      </div>
+
       {/* ── Pricing ──────────────────────────────────────────────── */}
       <section id="pricing" className="py-24 px-6 bg-navy-light border-y border-slate/30">
         <div className="max-w-6xl mx-auto">
@@ -348,72 +354,83 @@ export default function ServicePage({ params }: { params: { slug: string } | Pro
             </p>
           </FadeUp>
 
-          <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6" staggerDelay={0.12}>
-            {plans.map((plan, i) => (
-              <StaggerItem key={plan.name}>
-                <motion.div
-                  className={`relative bg-navy border rounded-2xl p-7 flex flex-col h-full ${plan.highlight ? `${accentBorder} ${accentGlow}` : "border-slate/30"}`}
-                  whileHover={{ y: -6 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                >
-                  {plan.highlight && (
+          <div className="grid grid-cols-1 lg:grid-cols-10 gap-8">
+            <div className="lg:col-span-7">
+              <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6" staggerDelay={0.12}>
+                {plans.map((plan, i) => (
+                  <StaggerItem key={plan.name}>
                     <motion.div
-                      className={`absolute -top-3.5 left-1/2 -translate-x-1/2 ${accentBg} text-white text-xs font-sora font-bold px-5 py-1.5 rounded-full whitespace-nowrap`}
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.4 + i * 0.12, type: "spring" }}
+                      className={`relative bg-navy border rounded-2xl p-7 flex flex-col h-full ${plan.highlight ? `${accentBorder} ${accentGlow}` : "border-slate/30"}`}
+                      whileHover={{ y: -6 }}
+                      transition={{ type: "spring", stiffness: 260, damping: 20 }}
                     >
-                      Most Popular
+                      {plan.highlight && (
+                        <motion.div
+                          className={`absolute -top-3.5 left-1/2 -translate-x-1/2 ${accentBg} text-white text-xs font-sora font-bold px-5 py-1.5 rounded-full whitespace-nowrap`}
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ delay: 0.4 + i * 0.12, type: "spring" }}
+                        >
+                          Most Popular
+                        </motion.div>
+                      )}
+
+                      <div className="mb-6 pt-1">
+                        <h3 className="font-sora font-bold text-xl text-off-white mb-1">{plan.name}</h3>
+                        <div className="flex items-end gap-1 mt-3">
+                          <span className="font-sora font-extrabold text-4xl gradient-text">{plan.price}</span>
+                          <span className="text-muted text-sm mb-1">{plan.period}</span>
+                        </div>
+                      </div>
+
+                      <ul className="space-y-3 flex-1 mb-7">
+                        {plan.features.map((feat, fi) => (
+                          <motion.li
+                            key={feat}
+                            className="flex items-start gap-2.5 text-sm text-off-white"
+                            initial={{ opacity: 0, x: -10 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ delay: fi * 0.04 }}
+                            viewport={{ once: true }}
+                          >
+                            <span className={`w-4 h-4 flex-shrink-0 mt-0.5 flex items-center justify-center rounded text-xs ${plan.highlight ? `${isCyan ? "bg-cyan/20 text-cyan" : "bg-violet/20 text-violet-bright"}` : "bg-slate/30 text-muted"}`}>
+                              ✓
+                            </span>
+                            {feat}
+                          </motion.li>
+                        ))}
+                      </ul>
+
+                      <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+                        <Link
+                          href="/contact"
+                          className={`block text-center py-3 rounded-xl font-sora font-semibold text-sm transition-all ${plan.highlight ? "btn-primary text-white" : "btn-outline"}`}
+                        >
+                          {plan.cta}
+                        </Link>
+                      </motion.div>
                     </motion.div>
-                  )}
+                  </StaggerItem>
+                ))}
+              </StaggerContainer>
 
-                  <div className="mb-6 pt-1">
-                    <h3 className="font-sora font-bold text-xl text-off-white mb-1">{plan.name}</h3>
-                    <div className="flex items-end gap-1 mt-3">
-                      <span className="font-sora font-extrabold text-4xl gradient-text">{plan.price}</span>
-                      <span className="text-muted text-sm mb-1">{plan.period}</span>
-                    </div>
-                  </div>
+              <FadeIn delay={0.4} className="text-center mt-10">
+                <p className="text-muted text-sm">
+                  Need something custom?{" "}
+                  <Link href="/contact" className={`${accentColor} hover:underline font-semibold`}>
+                    Talk to us →
+                  </Link>
+                </p>
+              </FadeIn>
+            </div>
 
-                  <ul className="space-y-3 flex-1 mb-7">
-                    {plan.features.map((feat, fi) => (
-                      <motion.li
-                        key={feat}
-                        className="flex items-start gap-2.5 text-sm text-off-white"
-                        initial={{ opacity: 0, x: -10 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ delay: fi * 0.04 }}
-                        viewport={{ once: true }}
-                      >
-                        <span className={`w-4 h-4 flex-shrink-0 mt-0.5 flex items-center justify-center rounded text-xs ${plan.highlight ? `${isCyan ? "bg-cyan/20 text-cyan" : "bg-violet/20 text-violet-bright"}` : "bg-slate/30 text-muted"}`}>
-                          ✓
-                        </span>
-                        {feat}
-                      </motion.li>
-                    ))}
-                  </ul>
-
-                  <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-                    <Link
-                      href="/contact"
-                      className={`block text-center py-3 rounded-xl font-sora font-semibold text-sm transition-all ${plan.highlight ? "btn-primary text-white" : "btn-outline"}`}
-                    >
-                      {plan.cta}
-                    </Link>
-                  </motion.div>
-                </motion.div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-
-          <FadeIn delay={0.4} className="text-center mt-10">
-            <p className="text-muted text-sm">
-              Need something custom?{" "}
-              <Link href="/contact" className={`${accentColor} hover:underline font-semibold`}>
-                Talk to us →
-              </Link>
-            </p>
-          </FadeIn>
+            {/* Ad Sidebar — ~30% width */}
+            <div className="lg:col-span-3 hidden lg:block">
+              <div className="lg:sticky lg:top-24">
+                <AdSidebar />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
